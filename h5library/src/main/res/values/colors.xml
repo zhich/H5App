@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="common_top_bar_bg">#300A45</color> <!--48 10 69-->
+    <color name="bg_color">#f4f4f4</color>
+    <color name="pay_tras">#2472a0</color>
+
+
+    <color name="color_ffffff">#ffffff</color>
+
+</resources>
