@@ -1,8 +1,9 @@
 package com.zch.h5app.plugin;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.zch.h5app.activity.BaseActivity;
 
 import org.json.JSONObject;
 
@@ -30,7 +31,7 @@ public interface IPlugin {
      *
      * @param context
      */
-    public void setContext(Context context);
+    public void setContext(BaseActivity context);
 
     public void onActivityResult(int requestCode, int resultCode, Intent data);
 

@@ -1,16 +1,17 @@
 package com.zch.h5app.plugin;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.zch.h5app.activity.BaseActivity;
 
 import org.json.JSONObject;
 
 public abstract class Plugin implements IPlugin {
 
-    protected Context mContext;
+    protected BaseActivity mContext;
 
-    public void setContext(Context context) {
+    public void setContext(BaseActivity context) {
         this.mContext = context;
     }
 

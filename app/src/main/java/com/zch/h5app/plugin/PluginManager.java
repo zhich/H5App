@@ -1,9 +1,10 @@
 package com.zch.h5app.plugin;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
+
+import com.zch.h5app.activity.BaseActivity;
 
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParserException;
@@ -17,11 +18,11 @@ public class PluginManager {
 
     private WeakReference<PluginManager> mInstance;
 
-    private Context mContext;
+    private BaseActivity mContext;
     private HashMap<String, String> mConfigs = new HashMap<String, String>();
     private HashMap<String, IPlugin> mPlugins = new HashMap<String, IPlugin>();
 
-    public PluginManager(Context context) {
+    public PluginManager(BaseActivity context) {
         this.mContext = context;
         mInstance = new WeakReference<PluginManager>(this);
     }
@@ -87,13 +88,8 @@ public class PluginManager {
      * 加载plugins.xml
      */
     public void loadPlugin() {
-        int identifier = mContext.getResources().getIdentifier("extends_plugins", "xml",
+        int identifier = mContext.getResources().getIdentifier("plugins", "xml",
                 mContext.getPackageName());
-        if (identifier == 0) {
-            identifier = mContext.getResources().getIdentifier("mPlugins", "xml",
-                    mContext.getPackageName());
-        }
-
         if (identifier == 0) {
             pluginConfigurationMissing();
         }

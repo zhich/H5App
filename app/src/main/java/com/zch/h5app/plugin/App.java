@@ -8,7 +8,9 @@ public class App extends Plugin {
     @Override
     public PluginResult exec(String action, JSONObject args)
             throws ActionNotFoundException {
-        if ("setTitle".equals(action)) {//设置标题内容
+        if ("isShowBack".equals(action)) {//是否显示返回箭头
+            return isShowBack(args);
+        } else if ("setTitle".equals(action)) {//设置标题
             return setTitle(args);
         } else {
             throw new ActionNotFoundException("App", action);
@@ -16,23 +18,10 @@ public class App extends Plugin {
     }
 
 
-//    @Override
-//    public PluginResult execAsyn(String action, JSONObject args, String requestID) throws ActionNotFoundException {
-//        if("checkLoginWithStatus".equals(action)){//
-//            return checkLoginWithStatus(args, requestID);
-//        }else if("alipay".equals(action)){//支付宝支付
-//            return alipay(args,requestID);
-//        }else if("weixinPay".equals(action)){//微信支付
-//            return weixinPay(args,requestID);
-//        }else {
-//            throw new ActionNotFoundException("App", action);
-//        }
-//    }
-
-    private PluginResult setTitle(JSONObject args) {
+    private PluginResult isShowBack(JSONObject args) {
         try {
-            String title = args.getString("title");
-            // mContext.setTopTitle(title);
+            boolean isShow = args.getBoolean("isShow");
+            mContext.isShowBack(isShow);
             return PluginResult.newEmptyPluginResult();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -40,5 +29,15 @@ public class App extends Plugin {
         }
     }
 
+    private PluginResult setTitle(JSONObject args) {
+        try {
+            String title = args.getString("title");
+            mContext.setTitle(title);
+            return PluginResult.newEmptyPluginResult();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return PluginResult.newErrorPluginResult(e.getMessage());
+        }
+    }
 
 }

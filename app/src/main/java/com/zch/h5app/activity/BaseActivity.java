@@ -17,8 +17,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zch.h5app.R;
@@ -40,20 +38,13 @@ import static com.zch.h5app.fragment.BaseFragment.comTag;
 
 public class BaseActivity extends Activity {
 
-    protected RelativeLayout mTopbarRl;//标题栏
-    protected TextView mTopbarLeftTv;//左边返回图标
-    protected ImageView mTopbarMidIv;//中间图片
-    protected TextView mTopbarTv;//中间文字
-    protected ImageView mTopbarRightIv;//右侧图片
-    protected TextView mTopbarRighIv;//右侧文字
+    protected TextView mBackTv;//返回键
+    protected TextView mTitleTv;//标题
 
     protected PluginManager mPluginManager;
-    protected WebView mWebView = null;
-    protected WebServerClient webviewClient;
-    protected WebChromeClient webChromeClient;
-
-    protected String mRightType;//用了记录右上角资源的类型
-    protected String mTitleType;//用了记录标题资源的类型
+    protected WebView mWebView;
+    protected WebServerClient mWebviewClient;
+    protected WebChromeClient mWebChromeClient;
 
     @Override
     public void onStart() {
@@ -101,6 +92,9 @@ public class BaseActivity extends Activity {
     @SuppressLint("SetJavaScriptEnabled")
     @JavascriptInterface
     protected void initView() {
+        mBackTv = (TextView) this.findViewById(R.id.toppanel_tv_back);
+        mTitleTv = (TextView) this.findViewById(R.id.toppanel_tv_title);
+
         mWebView = (WebView) this.findViewById(R.id.main_wv_webView);
 
         mWebView.requestFocus();
@@ -127,10 +121,10 @@ public class BaseActivity extends Activity {
         webSettings.setDefaultTextEncodingName("utf-8");
         webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
         webSettings.setDomStorageEnabled(true);
-        webviewClient = new WebServerClient();
-        webChromeClient = new WebServerChromeClient();
-        mWebView.setWebChromeClient(webChromeClient);
-        mWebView.setWebViewClient(webviewClient);
+        mWebviewClient = new WebServerClient();
+        mWebChromeClient = new WebServerChromeClient();
+        mWebView.setWebChromeClient(mWebChromeClient);
+        mWebView.setWebViewClient(mWebviewClient);
         mWebView.setVerticalScrollBarEnabled(false);
         mWebView.requestFocusFromTouch();
         mWebView.addJavascriptInterface(new AppJavaInterface(), "ptvAction");
@@ -150,7 +144,6 @@ public class BaseActivity extends Activity {
                 e.printStackTrace();
             }
         }
-        // mWebView.loadUrl("file:///android_asset/main.html");
     }
 
     /**
@@ -161,11 +154,6 @@ public class BaseActivity extends Activity {
      * @param h5TypeKey：h5文件资源类型，0：本地；1：web
      */
     public void loadUrl(String entryUrl, String localPackage, int h5TypeKey) {
-        localPackage = localPackage + File.separator + "html";
-
-        if (entryUrl == null || entryUrl.length() == 0) {
-            entryUrl = "index.html";
-        }
         String url = null;
         if (h5TypeKey == 0) {
             url = "file:///android_asset" + File.separator + localPackage + File.separator + entryUrl;
@@ -323,6 +311,28 @@ public class BaseActivity extends Activity {
             super.onReceivedError(view, errorCode, description, failingUrl);
         }
 
+    }
+
+    /**
+     * 是否显示返回箭头
+     *
+     * @param isShow
+     */
+    public void isShowBack(boolean isShow) {
+        if (isShow) {
+            mBackTv.setVisibility(View.VISIBLE);
+        } else {
+            mBackTv.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 设置标题文字
+     *
+     * @param title
+     */
+    public void setTitle(final String title) {
+        mTitleTv.setText(null == title ? "" : title);
     }
 
 }

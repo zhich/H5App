@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
               style="@style/layout_full"
+              android:orientation="vertical"
               tools:context="com.zch.h5app.activity.MainActivity">
 
     <include layout="@layout/top_panel"/>
