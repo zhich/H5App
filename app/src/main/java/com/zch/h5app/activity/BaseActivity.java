@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsPromptResult;
@@ -98,19 +97,6 @@ public class BaseActivity extends Activity {
         mWebView = (WebView) this.findViewById(R.id.main_wv_webView);
 
         mWebView.requestFocus();
-        mWebView.setOnKeyListener(new View.OnKeyListener() { // webview can
-            // go back
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (event.getAction() == KeyEvent.ACTION_DOWN) {
-                    if (keyCode == KeyEvent.KEYCODE_BACK) {
-                        //goBackEvent();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
