@@ -1,17 +1,13 @@
 package com.zch.h5app.plugin;
 
 /**
- * @author JW.Lee
- * @ClassName: PluginNotFoundException
- * @Description: 插件未找到异常，插件配置plugins.xml没有配置插件导致的错误
- * @date 2014年12月10日 下午5:44:17
+ * @author zch
+ * @description 插件未找到异常，插件配置plugins.xml没有配置插件导致的错误
+ * @created at 2017/2/4
  */
 public class PluginNotFoundException extends Throwable {
 
     private String pluginName;
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
 
     public PluginNotFoundException(String pluginName) {

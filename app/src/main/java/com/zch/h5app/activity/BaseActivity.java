@@ -19,6 +19,7 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.zch.h5app.R;
+import com.zch.h5app.common.Constant;
 import com.zch.h5app.plugin.AppJavaInterface;
 import com.zch.h5app.plugin.AsynServiceHandler;
 import com.zch.h5app.plugin.AsynServiceHandlerImpl;
@@ -33,8 +34,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.lang.reflect.Method;
 
-import static com.zch.h5app.fragment.BaseFragment.comTag;
-
 public class BaseActivity extends Activity {
 
     protected TextView mBackTv;//返回键
@@ -44,6 +43,30 @@ public class BaseActivity extends Activity {
     protected WebView mWebView;
     protected WebServerClient mWebviewClient;
     protected WebChromeClient mWebChromeClient;
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1: {
+                    String requestID = msg.getData().getString("requestID");
+                    String responseBody = msg.getData().getString("responseBody");
+
+                    JSONObject jsonObject = new JSONObject();
+                    PluginResult pluginResult = null;
+                    try {
+                        jsonObject.put("responseBody", responseBody);
+                        pluginResult = new PluginResult(jsonObject.toString());
+                        asynLoadUrl(pluginResult.getJSONString(), requestID);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     public void onStart() {
@@ -113,7 +136,7 @@ public class BaseActivity extends Activity {
         mWebView.setWebViewClient(mWebviewClient);
         mWebView.setVerticalScrollBarEnabled(false);
         mWebView.requestFocusFromTouch();
-        mWebView.addJavascriptInterface(new AppJavaInterface(), "ptvAction");
+        mWebView.addJavascriptInterface(new AppJavaInterface(), "h5Action");
 
 
         if (Build.VERSION.SDK_INT >= 16) {
@@ -156,8 +179,8 @@ public class BaseActivity extends Activity {
      * @param requestID
      */
     public void asynLoadUrl(String responseBody, String requestID) {
-//        String url = "javascript:" + comTag + ".callBackJs('" + responseBody + "','" + requestID + "')";
-//        mWebView.loadUrl(url);
+        String url = "javascript:" + Constant.COM_TAG + ".callBackJs('" + responseBody + "','" + requestID + "')";
+        mWebView.loadUrl(url);
     }
 
     private class WebServerChromeClient extends WebChromeClient {
@@ -223,7 +246,7 @@ public class BaseActivity extends Activity {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (url != null && url.toUpperCase().startsWith(comTag)) {
+            if (url != null && url.toUpperCase().startsWith(Constant.COM_TAG.toUpperCase())) {
                 String id = "NONE";
                 try {
                     id = url.substring(url.indexOf("id=") + 3);
@@ -250,10 +273,8 @@ public class BaseActivity extends Activity {
                     asyn.setMessageHandler(myHandler);
                     asyn.setPluginManager(mPluginManager);
 
-                    Thread thread = new Thread(asyn, "asyn_"
-                            + id);
+                    Thread thread = new Thread(asyn, "asyn_" + id);
                     thread.start();
-
                 } catch (Exception e) {
                     e.printStackTrace();
                     return false;
@@ -299,6 +320,8 @@ public class BaseActivity extends Activity {
 
     }
 
+    /*************************同步请求*************************/
+
     /**
      * 是否显示返回箭头
      *
@@ -319,6 +342,33 @@ public class BaseActivity extends Activity {
      */
     public void setTitle(final String title) {
         mTitleTv.setText(null == title ? "" : title);
+    }
+
+    /*************************异步请求*************************/
+
+    /**
+     * call alipay sdk pay. 调用SDK支付
+     *
+     * @param productName     商品名称
+     * @param productDescribe 商品描述
+     * @param productOrder    商品订单
+     * @param money           商品价钱
+     * @param payType         支付产品类型
+     */
+    public void alipay(String productName, String productDescribe, String productOrder, final String money, String payType, final String requestID) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String responseBody = "成功支付了" + money + "元";
+                Message msg = new Message();
+                msg.what = 1;
+                Bundle bundle = new Bundle();
+                bundle.putString("requestID", requestID);
+                bundle.putString("responseBody", responseBody);
+                msg.setData(bundle);
+                mHandler.sendMessage(msg);
+            }
+        }).start();
     }
 
 }

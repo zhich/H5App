@@ -17,6 +17,16 @@ public class App extends Plugin {
         }
     }
 
+    @Override
+    public PluginResult execAsyn(String action, JSONObject args, String requestID) throws ActionNotFoundException {
+        if ("alipay".equals(action)) {//支付宝支付
+            return alipay(args, requestID);
+        } else {
+            throw new ActionNotFoundException("App", action);
+        }
+    }
+
+    /*************************同步请求*************************/
 
     private PluginResult isShowBack(JSONObject args) {
         try {
@@ -37,6 +47,18 @@ public class App extends Plugin {
         } catch (JSONException e) {
             e.printStackTrace();
             return PluginResult.newErrorPluginResult(e.getMessage());
+        }
+    }
+
+    /*************************异步请求*************************/
+
+    private PluginResult alipay(JSONObject args,String requestID){
+        try {
+            mContext.alipay(args.getString("productName"), args.getString("productDescribe"), args.getString("productOrder"), args.getString("money"), args.getString("payType"), requestID);
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return PluginResult.newErrorPluginResult(e);
         }
     }
 

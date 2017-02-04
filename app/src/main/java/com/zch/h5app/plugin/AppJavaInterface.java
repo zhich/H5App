@@ -4,14 +4,13 @@ import android.webkit.JavascriptInterface;
 
 import java.util.Hashtable;
 
-
 /**
- * 与Javascript交互的对象
- *
- * @author samland, 2013/11/11
- * @version 1.0
+ * @author zch
+ * @description 与Javascript交互的对象
+ * @created at 2017/2/4
  */
 public class AppJavaInterface implements java.io.Serializable {
+
     private static final long serialVersionUID = 1898316400768814976L;
     private static Hashtable<String, String> CMDS = new Hashtable<String, String>();
     private static Hashtable<String, String> ARGS = new Hashtable<String, String>();
@@ -24,9 +23,7 @@ public class AppJavaInterface implements java.io.Serializable {
      */
     @JavascriptInterface
     public void setCmds(String cmds, String id) {
-        String aaa = cmds;
-        String bbb = id;
-        CMDS.put(bbb, aaa);
+        CMDS.put(id, cmds);
     }
 
     /**
@@ -41,7 +38,7 @@ public class AppJavaInterface implements java.io.Serializable {
     }
 
     /**
-     * 供DroidHtml5读取参数，只取一次即 清除
+     * 只取一次即 清除
      *
      * @param id
      * @return
@@ -53,7 +50,7 @@ public class AppJavaInterface implements java.io.Serializable {
     }
 
     /**
-     * 供DroidHtml5读取参数，只取一次即 清除
+     * 只取一次即 清除
      *
      * @param id
      * @return

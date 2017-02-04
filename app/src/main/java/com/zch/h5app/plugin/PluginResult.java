@@ -4,10 +4,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * @author JW.Lee
- * @ClassName: PluginResult
- * @Description: IPlugin处理结果
- * @date 2014年12月10日 下午5:44:30
+ * @author zch
+ * @description IPlugin处理结果
+ * @created at 2017/2/4
  */
 public class PluginResult {
     static final String TAG = PluginResult.class.getSimpleName();
@@ -25,17 +24,6 @@ public class PluginResult {
         super();
         this.message = message;
     }
-
-//	public PluginResult(String message, String name) {
-//		super();
-//		JSONObject json = new JSONObject();
-//		try {
-//			jsonObject.put(name, message);
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-//		this.jsonObject = json;
-//	}
 
     public String getMessage() {
         return message;
@@ -63,7 +51,6 @@ public class PluginResult {
             jsonObject.put("status", status.ordinal());
             json = jsonObject.toString();
         } catch (JSONException e) {
-//			e.printStackTrace();
             try {
                 jsonObject.put("message", message);
                 jsonObject.put("status", status.ordinal());
@@ -72,8 +59,6 @@ public class PluginResult {
                 e.printStackTrace();
             }
         }
-
-        // Log.d(TAG, json);
         return json;
     }
 

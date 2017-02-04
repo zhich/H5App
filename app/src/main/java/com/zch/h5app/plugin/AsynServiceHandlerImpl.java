@@ -3,16 +3,14 @@ package com.zch.h5app.plugin;
 import android.os.Handler;
 import android.webkit.WebView;
 
-import com.zch.h5app.fragment.BaseFragment;
+import com.zch.h5app.common.Constant;
 
 import org.json.JSONObject;
 
-
 /**
- * 处理原生异步交互
- *
- * @author samland, 2013/11/11
- * @version 1.0
+ * @author zch
+ * @description 处理原生异步交互
+ * @created at 2017/2/4
  */
 public class AsynServiceHandlerImpl implements AsynServiceHandler {
 
@@ -35,7 +33,7 @@ public class AsynServiceHandlerImpl implements AsynServiceHandler {
             if (responseBody != null) {
                 handler.post(new Runnable() {
                     public void run() {
-                        webView.loadUrl("javascript:" + BaseFragment.comTag + ".callBackJs('" + responseBody + "','" + requestID + "')");
+                        webView.loadUrl("javascript:" + Constant.COM_TAG + ".callBackJs('" + responseBody + "','" + requestID + "')");
                     }
                 });
             }

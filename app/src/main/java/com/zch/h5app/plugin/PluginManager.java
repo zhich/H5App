@@ -45,7 +45,9 @@ public class PluginManager {
         IPlugin plugin = getPlugin(service);
         try {
             PluginResult result = plugin.exec(action, args);
-            if (result == null) return null;
+            if (result == null) {
+                return null;
+            }
             return result.getJSONString();
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,7 +73,9 @@ public class PluginManager {
         IPlugin plugin = getPlugin(service);
         try {
             PluginResult result = plugin.execAsyn(action, args, requestID);
-            if (result == null) return null;
+            if (result == null) {
+                return null;
+            }
             return result.getJSONString();
         } catch (Exception e) {
             e.printStackTrace();

@@ -2,15 +2,10 @@ package com.zch.h5app.plugin;
 
 public class ActionNotFoundException extends Throwable {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
-
 
     private String actionName;
     private String serviceName;
-
 
     public ActionNotFoundException(String serivceName, String actionName) {
         super();
