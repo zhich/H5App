@@ -3,6 +3,14 @@ $(document).ready(function(){
      App.setTitle('首页');
 });
 
+$('#showBack').on('click',function(){
+     App.isShowBack(true);
+});
+
+$('#hideBack').on('click',function(){
+     App.isShowBack(false);
+});
+
 $('#alipay').on('click',function(){
      var productName = '产品名称';
      var productDescribe = '产品描述';
@@ -18,8 +26,8 @@ $('#alipay').on('click',function(){
                 money: money,
                 payType: payType
             };
-            var alipay_result =  JSON.stringify(data);
-            alert('支付结果：' + alipay_result);
+           // var alipay_result =  JSON.stringify(data);
+            alert('支付结果：' + JSON.stringify(result));
         }
      );
 });

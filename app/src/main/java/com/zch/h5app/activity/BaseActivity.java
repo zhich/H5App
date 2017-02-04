@@ -48,8 +48,9 @@ public class BaseActivity extends Activity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1: {
-                    String requestID = msg.getData().getString("requestID");
-                    String responseBody = msg.getData().getString("responseBody");
+                    Bundle bundle = msg.getData();
+                    String requestID = bundle.getString("requestID");
+                    String responseBody = bundle.getString("responseBody");
 
                     JSONObject jsonObject = new JSONObject();
                     PluginResult pluginResult = null;
